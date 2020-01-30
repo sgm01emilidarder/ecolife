@@ -85,7 +85,7 @@ DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
-  `ord_id` int(11) NOT NULL,
+  `ord_id` int(11) NOT NULL AUTO_INCREMENT,
   `ord_cus_id` int(11) NOT NULL,
   `ord_date` date NOT NULL,
   `ord_total` decimal(7,2) NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'mandarinas',2.49,1,'mandarinas.png','fruta_y_verdura','mandarinas','por_peso'),(2,'platanos',2,1,'platanos.png','fruta_y_verdura','platanos','por_peso'),(3,'hamburguesa de pollo',1,0.2,'hamburguesaPollo.jpg','carne','hamburguesa de pollo','por_unidad'),(4,'peras',1.55,1,'peras.png','fruta_y_verdura','peras frescas','por_peso');
+INSERT INTO `products` VALUES (1,'mandarinas',2.49,1,'mandarinas.png','fruta_y_verdura','mandarinas','por_peso'),(2,'platanos',2,1,'platanos.png','fruta_y_verdura','platanos','por_peso'),(3,'hamburguesa de pollo',1,0.2,'hamburguesaPollo.png','carne','hamburguesa de pollo','por_unidad'),(4,'peras',1.55,1,'peras.png','fruta_y_verdura','peras frescas','por_peso');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -143,4 +143,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-27 16:24:11
+-- Dump completed on 2020-01-27 17:54:44

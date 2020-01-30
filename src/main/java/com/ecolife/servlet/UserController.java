@@ -46,12 +46,31 @@ public class UserController extends HttpServlet{
                 case "update":
                     this.updateClient(request, response);
                     break;
+                case "create":
+                    this.createClient(request, response);
+                    break;
+                case "login":
+                    this.loginClient(request, response);
+                    break;
+                case "close":
+                    this.closeClient(request, response);
+                    break;
                 default:
                     this.showListClient(request, response);
             }
         } else {
             this.showListClient(request, response);
         }
+    }
+
+    private void returnToIndex(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("index.jsp");
+    }
+
+    private void closeClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("user", null);
+        response.sendRedirect("index.jsp");
     }
 
     private void showListClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -77,7 +96,51 @@ public class UserController extends HttpServlet{
 
     }
 
+    private void loginClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // recuperamos el idCliente
+        String userUsername = request.getParameter("userUsername");
+        String userPass = request.getParameter("userPass");
+        User user = new UserDao().findByUserPass(new User(userUsername, userPass));
+
+        System.out.println(user);
+
+       if(user.getUsername().equals("admin") && user.getDni() != null) {
+           HttpSession session = request.getSession();
+           session.setAttribute("user", user);
+           response.sendRedirect("listClients.jsp");
+       } else if(user.getDni() != null) {
+           HttpSession session = request.getSession();
+           session.setAttribute("user", user);
+           response.sendRedirect("index.jsp");
+       } else {
+           HttpSession session = request.getSession();
+           session.setAttribute("user", null);
+       }
+
+    }
+
     private void insertClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String dni = request.getParameter("dni");
+        String name = request.getParameter("name");
+        String surname = request.getParameter("surname");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        int phone = Integer.parseInt(request.getParameter("phone"));
+        String email = request.getParameter("email");
+
+        // Creamos el objeto de cliente (modelo)
+        User user = new User(dni, name, surname, username, password, phone, email);
+
+        // Insertamos el nuevo objeto en la base de datos
+        int registrosModificados = new UserDao().create(user);
+        System.out.println("Registres modificats:" + registrosModificados);
+
+        // Redirigimos hacia accion por default
+        this.showListClient(request, response);
+    }
+
+    private void createClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //request.setCharacterEncoding("UTF-8");
 
         // recuperamos los valores del formulario agregarCliente
@@ -97,7 +160,7 @@ public class UserController extends HttpServlet{
         System.out.println("Registres modificats:" + registrosModificados);
 
         // Redirigimos hacia accion por default
-        this.showListClient(request, response);
+        this.returnToIndex(request, response);
     }
 
     private void updateClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

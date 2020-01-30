@@ -3,7 +3,7 @@
 <div class="row my-5">
     <div class="col-12 bg-light p-2 rounded">
         <h3 class="text-center text-success">CREAR CUENTA</h3>
-        <form action="${pageContext.request.contextPath}/client?action=insert" method="POST" class="was-validated">
+        <form action="${pageContext.request.contextPath}/client?action=create" method="POST" class="was-validated">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="dni">Usuario</label>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="nombre">Nombre</label>
-                    <input type="password" name="name" class="form-control" id="nombre" placeholder="nombre" required>
+                    <input type="text" name="name" class="form-control" id="nombre" placeholder="nombre" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="apellidos">Apellidos</label>

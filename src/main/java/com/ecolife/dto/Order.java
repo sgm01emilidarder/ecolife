@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Order {
     private int id;
-    private User userDni;
+    private User userId;
     private LocalDate orderDate;
     private double orderTotal;
 
@@ -13,9 +13,9 @@ public class Order {
         this.id = id;
     }
 
-    public Order(int id, User userDni, LocalDate orderDate, double orderTotal) {
+    public Order(int id, User userId, LocalDate orderDate, double orderTotal) {
         this.id = id;
-        this.userDni = userDni;
+        this.userId = userId;
         this.orderDate = orderDate;
         this.orderTotal = orderTotal;
     }
@@ -28,12 +28,12 @@ public class Order {
         this.id = id;
     }
 
-    public User getUserDni() {
-        return userDni;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUserDni(User userDni) {
-        this.userDni = userDni;
+    public void setuserId(User userId) {
+        this.userId = userId;
     }
 
     public LocalDate getOrderDate() {
@@ -58,19 +58,19 @@ public class Order {
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
         return id == order.id &&
-                userDni.equals(order.userDni);
+                userId.equals(order.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userDni);
+        return Objects.hash(id, userId);
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", userDni=" + userDni +
+                ", userId=" + userId +
                 ", orderDate=" + orderDate +
                 ", orderTotal=" + orderTotal +
                 '}';

@@ -3,37 +3,33 @@ package com.ecolife.dao;
 import java.sql.*;
 import java.util.*;
 
-import com.ecolife.dto.Category;
+import com.ecolife.dto.Order;
+import com.ecolife.dto.OrderItems;
 import com.ecolife.dto.Product;
-import com.ecolife.dto.Type;
 
-public class ProductDao {
-    public ProductDao() {}
+public class OrderItemsDao {
+    public OrderItemsDao() {}
 
-    public List<Product> listar() {
-        String SQL_SELECT = "SELECT pro_id, pro_name, pro_price, pro_weight, pro_cover, pro_description, pro_category, pro_type " + " FROM products";
+    public List<OrderItems> listar() {
+        String SQL_SELECT = "SELECT oit_ord_id, oit_pro_id, oit_unit_price, oit_quantity " + " FROM order_items";
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Product product = null;
-        List<Product> products = new ArrayList<>();
+        OrderItems item = null;
+        List<OrderItems> items = new ArrayList<>();
 
         try {
             conn = DBConnection.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("pro_id");
-                String name = rs.getString("pro_name");
-                double price = rs.getDouble("pro_price");
-                double weight = rs.getDouble("pro_weight");
-                String cover = rs.getString("pro_cover");
-                String description = rs.getString("pro_description");
-                Category category = Category.valueOf(rs.getString("pro_category"));
-                Type type = Type.valueOf(rs.getString("pro_type"));
+                Order orderItemId = new Order(rs.getInt("oit_ord_id"));
+                Product productId = new Product(rs.getInt("oit_pro_id"));
+                double unitPrice = rs.getDouble("oit_unit_price");
+                int quantity = rs.getInt("oit_quantity");
 
-                product = new Product(id, name, price, weight, cover, description, category, type);
-                products.add(product);
+                item = new OrderItems(orderItemId, productId, unitPrice, quantity);
+                items.add(item);
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
@@ -42,11 +38,11 @@ public class ProductDao {
             DBConnection.close(stmt);
             DBConnection.close(conn);
         }
-        return products;
+        return items;
     }
 
-    public Product findById(Product product) {
-        String SQL_SELECT_BY_ID = "SELECT pro_id, pro_name, pro_price, pro_weight, pro_cover, pro_description, pro_category, pro_type "
+ /*   public OrderItems findById(OrderItems item) {
+        String SQL_SELECT_BY_ID = "SELECT oit_ord_id, oit_pro_id, oit_unit_price, oit_quantity "
                 + " FROM products WHERE pro_id = ?";
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -83,11 +79,11 @@ public class ProductDao {
             DBConnection.close(conn);
         }
         return product;
-    }
+    }*/
 
-    public int create(Product product) {
-        String SQL_INSERT = "INSERT INTO products(pro_name, pro_price, pro_weight, pro_cover, pro_description, pro_category, pro_type) "
-                + " VALUES(?, ?, ?, ?, ?, ?, ?)";
+    public int create(OrderItems item) {
+        String SQL_INSERT = "INSERT INTO order_items(oit_ord_id, oit_pro_id, oit_unit_price, oit_quantity) "
+                + " VALUES(?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -95,14 +91,11 @@ public class ProductDao {
             conn = DBConnection.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
             int i = 1;
-            stmt.setString(i++, product.getName());
-            stmt.setDouble(i++, product.getPrice());
-            stmt.setDouble(i++, product.getWeight());
-            stmt.setString(i++, product.getCover());
-            stmt.setString(i++, product.getDescription());
-            stmt.setString(i++, product.getCategory().toString());
-            stmt.setString(i++, product.getType().toString());
-            System.out.println(product.toString());
+            stmt.setInt(i++, item.getOrderId().getId());
+            stmt.setInt(i++, item.getProductCode().getCode());
+            stmt.setDouble(i++, item.getUnitPrice());
+            stmt.setInt(i++, item.getQuantity());
+            System.out.println(item.toString());
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
@@ -113,9 +106,9 @@ public class ProductDao {
         return rows;
     }
 
-    public int update(Product product) {
-        String SQL_UPDATE = "UPDATE products "
-                + " SET pro_name=?, pro_price=?, pro_weight=?, pro_cover=?, pro_description=?, pro_category=?, pro_type=? WHERE pro_id=?";
+    public int update(OrderItems item) {
+        String SQL_UPDATE = "UPDATE order_items "
+                + " SET oit_unit_price=?, oit_quantity=? WHERE oit_ord_id=? AND oit_pro_id=?";
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -123,14 +116,10 @@ public class ProductDao {
             conn = DBConnection.getConnection();
             stmt = conn.prepareStatement(SQL_UPDATE);
             int i = 1;
-            stmt.setString(i++, product.getName());
-            stmt.setDouble(i++, product.getPrice());
-            stmt.setDouble(i++, product.getWeight());
-            stmt.setString(i++, product.getCover());
-            stmt.setString(i++, product.getDescription());
-            stmt.setString(i++, product.getCategory().toString());
-            stmt.setString(i++, product.getType().toString());
-            stmt.setInt(i++, product.getCode());
+            stmt.setDouble(i++, item.getUnitPrice());
+            stmt.setInt(i++, item.getQuantity());
+            stmt.setInt(i++, item.getOrderId().getId());
+            stmt.setInt(i++, item.getProductCode().getCode());
 
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
@@ -142,15 +131,16 @@ public class ProductDao {
         return rows;
     }
 
-    public int delete(Product product) {
-        String SQL_DELETE = "DELETE FROM products WHERE pro_id = ?";
+    public int delete(OrderItems item) {
+        String SQL_DELETE = "DELETE FROM order_items WHERE oit_ord_id=? AND oit_pro_id=?";
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
         try {
             conn = DBConnection.getConnection();
             stmt = conn.prepareStatement(SQL_DELETE);
-            stmt.setInt(1, product.getCode());
+            stmt.setInt(1, item.getOrderId().getId());
+            stmt.setInt(2, item.getProductCode().getCode());
             rows = stmt.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
@@ -160,5 +150,4 @@ public class ProductDao {
         }
         return rows;
     }
-
 }

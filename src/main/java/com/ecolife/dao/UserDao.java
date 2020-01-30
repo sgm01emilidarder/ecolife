@@ -88,6 +88,49 @@ public class UserDao {
         return user;
     }
 
+    public User findByUserPass(User user) {
+        String SQL_SELECT_BY_USER_AND_PASS = "SELECT cus_id, cus_dni, cus_name, cus_surname, cus_username, cus_password, cus_phone, cus_email "
+                + " FROM customers WHERE cus_username = ? AND cus_password = SHA2(?,256)";
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT_BY_USER_AND_PASS);
+
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+            rs = stmt.executeQuery();
+            rs.absolute(1);
+
+            int id = rs.getInt("cus_id");
+            String dni = rs.getString("cus_dni");
+            String name = rs.getString("cus_name");
+            String surname = rs.getString("cus_surname");
+            String  username = rs.getString("cus_username");
+            String password = rs.getString("cus_password");
+            int phone = rs.getInt("cus_phone");
+            String email = rs.getString("cus_email");
+
+            user.setId(id);
+            user.setDni(dni);
+            user.setName(name);
+            user.setSurname(surname);
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setPhone(phone);
+            user.setEmail(email);
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            DBConnection.close(rs);
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
+        return user;
+    }
     /*
      * Crea un usuari a la base de dades
      *
@@ -126,7 +169,7 @@ public class UserDao {
      */
     public int update(User user) {
         String SQL_UPDATE = "UPDATE customers "
-                + " SET cus_dni=?, cus_name=?, cus_surname=?, cus_username=?, cus_password=?, cus_phone=?, cus_email=? WHERE cus_id=?";
+                + " SET cus_dni=?, cus_name=?, cus_surname=?, cus_username=?, cus_password=SHA2(?,256), cus_phone=?, cus_email=? WHERE cus_id=?";
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
