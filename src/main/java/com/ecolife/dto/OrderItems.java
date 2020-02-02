@@ -6,9 +6,16 @@ public class OrderItems {
     private Order orderId;
     private Product productCode;
     private double unitPrice;
-    private int quantity;
+    private double quantity;
 
-    public OrderItems(Order orderId, Product productCode, double unitPrice, int quantity) {
+    public OrderItems() {};
+
+    public OrderItems(Order orderId, Product productCode) {
+        this.orderId = orderId;
+        this.productCode = productCode;
+    }
+
+    public OrderItems(Order orderId, Product productCode, double unitPrice, double quantity) {
         this.orderId = orderId;
         this.productCode = productCode;
         this.unitPrice = unitPrice;
@@ -39,11 +46,11 @@ public class OrderItems {
         this.unitPrice = unitPrice;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

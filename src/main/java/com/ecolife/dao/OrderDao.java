@@ -42,9 +42,42 @@ public class OrderDao {
         return orders;
     }
 
+    public List<Order> listByCustomer(User user) {
+        String SQL_SELECT = "SELECT ord_id, ord_cus_id, ord_date, ord_total " +
+                            " FROM orders WHERE ord_cus_id = ?";
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Order order;
+        List<Order> orders = new ArrayList<>();
+
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT);
+            stmt.setInt(1, user.getId());
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("ord_id");
+                User customerId = new User(rs.getInt("ord_cus_id"));
+                LocalDate date = LocalDate.parse(rs.getString("ord_date"));
+                double total = rs.getDouble("ord_total");
+
+                order = new Order(id, customerId, date, total);
+                orders.add(order);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            DBConnection.close(rs);
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
+        return orders;
+    }
+
     public Order findById(Order order) {
         String SQL_SELECT_BY_ID = "SELECT ord_cus_id, ord_date, ord_total "
-                + " FROM products WHERE ord_id = ?";
+                + " FROM orders WHERE ord_id = ?";
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;

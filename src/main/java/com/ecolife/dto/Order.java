@@ -13,6 +13,12 @@ public class Order {
         this.id = id;
     }
 
+    public Order(User userId, LocalDate orderDate, double orderTotal) {
+        this.userId = userId;
+        this.orderDate = orderDate;
+        this.orderTotal = orderTotal;
+    }
+
     public Order(int id, User userId, LocalDate orderDate, double orderTotal) {
         this.id = id;
         this.userId = userId;
