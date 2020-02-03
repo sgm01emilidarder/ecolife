@@ -2,10 +2,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page import="com.ecolife.dto.User" %>
+<%@ page import="com.ecolife.dto.OrderItems" %>
+<%@ page import="java.util.ArrayList" %>
 
 <%
     User usuari = (User) session.getAttribute("user");
     request.setAttribute("usuari", usuari);
+
+    //Acceso a los metodos de ProductDao
+    ProductDao productMethods = new ProductDao();
+
+    //Lista de productos
+    List<Product> listProducts = productMethods.listar();
+    request.setAttribute("products", listProducts);
+
+    List<OrderItems> items = (List<OrderItems>) session.getAttribute("cart");
+    request.setAttribute("items", items);
 %>
 
 <!doctype html>

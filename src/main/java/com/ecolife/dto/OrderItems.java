@@ -1,6 +1,6 @@
 package com.ecolife.dto;
 
-import java.util.Objects;
+import java.util.*;
 
 public class OrderItems {
     private Order orderId;
@@ -13,6 +13,12 @@ public class OrderItems {
     public OrderItems(Order orderId, Product productCode) {
         this.orderId = orderId;
         this.productCode = productCode;
+    }
+
+    public OrderItems(Product productCode, double unitPrice, double quantity) {
+        this.productCode = productCode;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
     }
 
     public OrderItems(Order orderId, Product productCode, double unitPrice, double quantity) {

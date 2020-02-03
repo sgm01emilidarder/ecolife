@@ -2,6 +2,7 @@ package com.ecolife.servlet;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +16,17 @@ import com.sun.org.apache.xpath.internal.operations.Or;
 
 
 @WebServlet("/orderItems")
-public class OrderItemsController extends HttpServlet{
+public class OrderItemsController extends HttpServlet {
     private static final long serialVersionUID = -7558166539389234332L;
+    List<OrderItems> cart = new ArrayList<>();
+
+/*    private boolean compareCartItems(OrderItems item){
+        for (OrderItems oItem : cart){
+            if (oItem.getProductCode().getCode() == item.getProductCode().getCode()){
+                return false;
+            }
+        } return true;
+    }*/
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,6 +61,9 @@ public class OrderItemsController extends HttpServlet{
                 case "update":
                     this.updateOrderItem(request, response);
                     break;
+                /*case "addItem":
+                    this.addItemToList(request, response);
+                    break;*/
                 default:
                     this.showListOrderItem(request, response);
             }
@@ -58,6 +71,36 @@ public class OrderItemsController extends HttpServlet{
             this.showListOrderItem(request, response);
         }
     }
+
+   /* private void addItemToList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Product idProduct = new Product(Integer.parseInt(request.getParameter("idProduct")));
+        double price = Double.parseDouble(request.getParameter("price"));
+        double quantity = Double.parseDouble(request.getParameter("quantity"));
+
+        OrderItems newItem = new OrderItems(idProduct, price, quantity);
+
+        if (cart.isEmpty()) {
+            cart.add(newItem);
+        } else {
+
+            for (OrderItems cartItem : new ArrayList<>(cart)) {
+                if (cartItem.getProductCode().getCode() == newItem.getProductCode().getCode()) {
+                    cartItem.setQuantity(cartItem.getQuantity() + quantity);
+                }else if (compareCartItems(newItem)) {
+                    cart.add(newItem);
+                }
+            }
+        }
+
+
+        System.out.println("carrito = " + cart);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("cart", cart);
+
+        response.sendRedirect("index.jsp");
+    }*/
 
     private void showListOrderItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<OrderItems> items = new OrderItemsDao().listar();

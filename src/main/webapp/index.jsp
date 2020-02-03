@@ -1,17 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="./common/header.jsp" %>
 <%@ page import="com.ecolife.dto.Product"%>
 <%@ page import="com.ecolife.dao.ProductDao"%>
 <%@ page import="java.util.List" %>
 
-<%
-    //Acceso a los metodos de ProductDao
-    ProductDao productMethods = new ProductDao();
-
-    //Lista de productos
-    List<Product> listProducts = productMethods.listar();
-    request.setAttribute("products", listProducts);
-%>
+<%@include file="./common/header.jsp" %>
 
 <section>
     <div class="jumbotron jumbotron-fluid row mb-0">
@@ -41,11 +33,11 @@
                 <div class="row mb-2">
                     <c:if test="${product.type=='por_peso'}">
                         <div class="col-2"><label for=""></label></div>
-                        <div class="col-6"><input type="number" class="form-control" value="0.5" min="0.5" name="" step=".5"></div>
+                        <div class="col-6"><input name="quantity" type="number" class="form-control" value="0.5" min="0.5" step=".5"></div>
                         <div class="col-3"><p><b>kg</b></p></div>
                     </c:if>
                     <c:if test="${product.type=='por_unidad'}">
-                        <div class="col-6"><input type="number" class="form-control" value="1" min="1" name="" step="1"></div>
+                        <div class="col-6"><input name="quantity" type="number" class="form-control" value="1" min="1" step="1"></div>
                         <div class="col-6"><p><b>unidad/es</b></p></div>
                     </c:if>
                 </div>

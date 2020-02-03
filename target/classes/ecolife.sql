@@ -30,13 +30,13 @@ CREATE TABLE `customers` (
   `cus_name` varchar(45) NOT NULL,
   `cus_surname` varchar(45) NOT NULL,
   `cus_username` varchar(45) NOT NULL,
-  `cus_password` varchar(500) NOT NULL,
+  `cus_password` varchar(1000) NOT NULL,
   `cus_phone` int(9) NOT NULL,
   `cus_email` varchar(45) NOT NULL,
   PRIMARY KEY (`cus_id`),
   UNIQUE KEY `cus_username_UNIQUE` (`cus_username`),
   UNIQUE KEY `cus_id_UNIQUE` (`cus_dni`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'11111111A','sergio','garcia','sergio','ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f',666555444,'sg@gmail.com');
+INSERT INTO `customers` VALUES (1,'11111111A','sergio','garcia','sergio','ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f',666555444,'sg@gmail.com'),(3,'12345678O','prueba','prueba','prueba','6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b',666555999,'prueba2@gmail.com'),(4,'0','admin','admin','admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',0,'admin@admin.com');
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +60,7 @@ CREATE TABLE `order_items` (
   `oit_ord_id` int(11) NOT NULL,
   `oit_pro_id` int(11) NOT NULL,
   `oit_unit_price` decimal(5,2) NOT NULL,
-  `oit_quantity` int(11) NOT NULL,
+  `oit_quantity` double NOT NULL,
   PRIMARY KEY (`oit_ord_id`,`oit_pro_id`),
   KEY `oit_pro_fk_idx` (`oit_pro_id`),
   CONSTRAINT `oit_ord_fk` FOREIGN KEY (`oit_ord_id`) REFERENCES `orders` (`ord_id`),
@@ -143,4 +143,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-27 17:54:44
+-- Dump completed on 2020-02-02 12:49:50
