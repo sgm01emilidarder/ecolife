@@ -3,7 +3,17 @@
 <%@ page import="com.ecolife.dao.ProductDao"%>
 <%@ page import="java.util.List" %>
 
+<%
+//Acceso a los metodos de ProductDao
+ProductDao productMethods = new ProductDao();
+
+//Lista de productos
+List<Product> listProducts = productMethods.listar();
+request.setAttribute("products", listProducts);
+%>
+
 <%@include file="./common/header.jsp" %>
+
 
 <section>
     <div class="jumbotron jumbotron-fluid row mb-0">
@@ -33,15 +43,15 @@
                 <div class="row mb-2">
                     <c:if test="${product.type=='por_peso'}">
                         <div class="col-2"><label for=""></label></div>
-                        <div class="col-6"><input name="quantity" type="number" class="form-control" value="0.5" min="0.5" step=".5"></div>
+                        <div class="col-6"><input class="form-control" id="quantity${product.code}" type="number" value="0.5" min="0.5" step=".5"></div>
                         <div class="col-3"><p><b>kg</b></p></div>
                     </c:if>
                     <c:if test="${product.type=='por_unidad'}">
-                        <div class="col-6"><input name="quantity" type="number" class="form-control" value="1" min="1" step="1"></div>
+                        <div class="col-6"><input class="form-control" id="quantity${product.code}" type="number" value="1" min="1" step="1"></div>
                         <div class="col-6"><p><b>unidad/es</b></p></div>
                     </c:if>
                 </div>
-                <button class="btn btn-success btn-block aling-bottom">Añadir al carrito <i class="fas fa-shopping-cart"></i></button>
+                <button class="btn btn-success btn-block aling-bottom" onclick="addNewItem(${product.code}, '${product.name}', '${product.cover}', ${product.price}); addToLocalStorage()">Añadir al carrito <i class="fas fa-shopping-cart"></i></button>
             </div>
         </div>
         </c:forEach>

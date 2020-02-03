@@ -9,15 +9,6 @@
     User usuari = (User) session.getAttribute("user");
     request.setAttribute("usuari", usuari);
 
-    //Acceso a los metodos de ProductDao
-    ProductDao productMethods = new ProductDao();
-
-    //Lista de productos
-    List<Product> listProducts = productMethods.listar();
-    request.setAttribute("products", listProducts);
-
-    List<OrderItems> items = (List<OrderItems>) session.getAttribute("cart");
-    request.setAttribute("items", items);
 %>
 
 <!doctype html>
@@ -60,7 +51,7 @@
                     </div>
                 </div>
             </c:if>
-            <a class="btn btn-light" href="carrito.jsp">Carrito <i class="fas fa-shopping-cart"></i></a>
+            <a class="btn btn-light" href="carrito.jsp" onclick="printLocalStorage()">Carrito <i class="fas fa-shopping-cart"></i></a>
         </div>
     </nav>
     <nav class="nav justify-content-center bg-light row">
