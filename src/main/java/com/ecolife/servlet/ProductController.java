@@ -24,6 +24,9 @@ public class ProductController extends HttpServlet{
                 case "edit":
                     this.editProduct(request, response);
                     break;
+                case "filter":
+                    this.showListProductFiltered(request, response);
+                    break;
                 default:
                     this.showListProduct(request, response);
             }
@@ -61,12 +64,27 @@ public class ProductController extends HttpServlet{
 
         System.out.println("productos = " + products);
 
-        // Dades a desar a la sessió de la classe
         HttpSession session = request.getSession();
         session.setAttribute("products", products);
 
-        // request.getRequestDispatcher("frmClient.jsp").forward(request, response);
         response.sendRedirect("listProducts.jsp");
+    }
+
+    private void showListProductFiltered(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String categoryProduct = request.getParameter("categoryProduct");
+        List<Product> productsFiltered = new ProductDao().listByCategory(categoryProduct);
+
+        System.out.println("productosFiltrados = " + productsFiltered);
+
+        HttpSession session = request.getSession();
+        if (categoryProduct.equals("null")) {
+            session.setAttribute("productsFiltered", null);
+        } else {
+            session.setAttribute("productsFiltered", productsFiltered);
+        }
+
+
+        response.sendRedirect("index.jsp");
     }
 
     private void editProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

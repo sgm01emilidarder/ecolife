@@ -45,6 +45,43 @@ public class ProductDao {
         return products;
     }
 
+    public List<Product> listByCategory(String categoryProduct) {
+        String SQL_SELECT = "SELECT pro_id, pro_name, pro_price, pro_weight, pro_cover, pro_description, pro_category, pro_type "
+                            + " FROM products WHERE pro_category=?";
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Product product = null;
+        List<Product> products = new ArrayList<>();
+
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT);
+            stmt.setString(1, categoryProduct);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("pro_id");
+                String name = rs.getString("pro_name");
+                double price = rs.getDouble("pro_price");
+                double weight = rs.getDouble("pro_weight");
+                String cover = rs.getString("pro_cover");
+                String description = rs.getString("pro_description");
+                Category category = Category.valueOf(rs.getString("pro_category"));
+                Type type = Type.valueOf(rs.getString("pro_type"));
+
+                product = new Product(id, name, price, weight, cover, description, category, type);
+                products.add(product);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            DBConnection.close(rs);
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
+        return products;
+    }
+
     public Product findById(Product product) {
         String SQL_SELECT_BY_ID = "SELECT pro_id, pro_name, pro_price, pro_weight, pro_cover, pro_description, pro_category, pro_type "
                 + " FROM products WHERE pro_id = ?";
