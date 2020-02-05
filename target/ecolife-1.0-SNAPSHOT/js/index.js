@@ -1,8 +1,8 @@
 let carrito = JSON.parse(localStorage.getItem("carrito"));
 let newItem = {};
 
-function addNewItem(codigo, nombre, imagen, precio) {
-    newItem = {"codigo" : codigo, "nombre" : nombre, "imagen" : imagen, "precio" : precio, "cantidad" : parseFloat(document.getElementById('quantity' + codigo).value), "total" : (parseFloat(document.getElementById('quantity'+ codigo).value) * precio)};
+function addNewItem(codigo, nombre, imagen, precio, tipo) {
+    newItem = {"codigo" : codigo, "nombre" : nombre, "imagen" : imagen, "precio" : precio, "tipo" : tipo, "cantidad" : parseFloat(document.getElementById('quantity' + codigo).value), "total" : (parseFloat(document.getElementById('quantity'+ codigo).value) * precio)};
     console.log(newItem);
     console.log(carrito);
 }
@@ -41,12 +41,21 @@ function printLocalStorage() {
     content.innerHTML = '';
     let totalPedido = 0;
     for (let item of carrito) {
+        let tdPrecio = '';
+        let tdCantidad = '';
+        if(item.tipo === "por_peso"){
+            tdPrecio = '€/kg';
+            tdCantidad = 'kg';
+        } else if (item.tipo === "por_unidad"){
+            tdPrecio = '€/unidad';
+            tdCantidad = 'unidad/es';
+        }
         content.innerHTML += `
     <tr>
                         <td><img src="./img/${item.imagen}" alt="" class="imagenCarrito"></td>
                         <td class="align-middle">${item.nombre}</td>
-                        <td class="align-middle">${item.precio}</td>
-                        <td class="align-middle">${item.cantidad}</td>
+                        <td class="align-middle">${item.precio}${tdPrecio}</td>
+                        <td class="align-middle">${item.cantidad} ${tdCantidad}</td>
                         <td class="align-middle text-center">
                             <a href="#" class="btn">
                                 <i class="fas fa-trash"></i>

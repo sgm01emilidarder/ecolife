@@ -2,8 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page import="com.ecolife.dto.User" %>
-<%@ page import="com.ecolife.dto.OrderItems" %>
-<%@ page import="java.util.ArrayList" %>
 
 <%
     User usuari = (User) session.getAttribute("user");
@@ -28,9 +26,9 @@
 <body class="container back">
 <header class="mb-2">
     <nav class="navbar navbar-light bg-success row">
-        <a class="navbar-brand" href="index.jsp">Ecolife <i class="fas fa-leaf"></i></a>
-        <form class="form-inline my-2 my-lg-0 ">
-            <input class="form-control mr-sm-2" type="search" placeholder="nombre producto" aria-label="Search">
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/product?action=filter&categoryProduct=null">Ecolife <i class="fas fa-leaf"></i></a>
+        <form action="${pageContext.request.contextPath}/product?action=search" method="post" class="form-inline my-2 my-lg-0 ">
+            <input class="form-control mr-sm-2" type="search" name="productSearch" placeholder="nombre producto" aria-label="Search">
             <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
         </form>
         <div>
@@ -56,16 +54,16 @@
     </nav>
     <nav class="nav justify-content-center bg-light row">
         <li class="nav-item">
-            <a class="nav-link active text-success" href="index.html">Inicio</a>
+            <a class="nav-link active text-success" href="${pageContext.request.contextPath}/product?action=filter&categoryProduct=null">Inicio</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-success" href="#">Fruta y Verdura Ecológica</a>
+            <a class="nav-link text-success" href="${pageContext.request.contextPath}/product?action=filter&categoryProduct=fruta_y_verdura">Fruta y Verdura Ecológica</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-success" href="#">Carnes Ecológicas</a>
+            <a class="nav-link text-success" href="${pageContext.request.contextPath}/product?action=filter&categoryProduct=carne">Carnes Ecológicas</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-success" href="#">Huevos y Lácteos Ecológicos</a>
+            <a class="nav-link text-success" href="${pageContext.request.contextPath}/product?action=filter&categoryProduct=huevos_y_lacteos">Huevos y Lácteos Ecológicos</a>
         </li>
     </nav>
 </header>

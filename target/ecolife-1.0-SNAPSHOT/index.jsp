@@ -8,8 +8,13 @@
 ProductDao productMethods = new ProductDao();
 
 //Lista de productos
-List<Product> listProducts = productMethods.listar();
-request.setAttribute("products", listProducts);
+    if (session.getAttribute("productsFiltered") == null){
+        List<Product> listProducts = productMethods.listar();
+        request.setAttribute("products", listProducts);
+    } else {
+        request.setAttribute("products", session.getAttribute("productsFiltered"));
+    }
+
 %>
 
 <%@include file="./common/header.jsp" %>
@@ -51,7 +56,7 @@ request.setAttribute("products", listProducts);
                         <div class="col-6"><p><b>unidad/es</b></p></div>
                     </c:if>
                 </div>
-                <button class="btn btn-success btn-block aling-bottom" onclick="addNewItem(${product.code}, '${product.name}', '${product.cover}', ${product.price}); addToLocalStorage()">Añadir al carrito <i class="fas fa-shopping-cart"></i></button>
+                <button class="btn btn-success btn-block aling-bottom" onclick="addNewItem(${product.code}, '${product.name}', '${product.cover}', ${product.price}, '${product.type}'); addToLocalStorage()">Añadir al carrito <i class="fas fa-shopping-cart"></i></button>
             </div>
         </div>
         </c:forEach>

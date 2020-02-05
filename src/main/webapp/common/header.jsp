@@ -27,8 +27,8 @@
 <header class="mb-2">
     <nav class="navbar navbar-light bg-success row">
         <a class="navbar-brand" href="${pageContext.request.contextPath}/product?action=filter&categoryProduct=null">Ecolife <i class="fas fa-leaf"></i></a>
-        <form class="form-inline my-2 my-lg-0 ">
-            <input class="form-control mr-sm-2" type="search" placeholder="nombre producto" aria-label="Search">
+        <form action="${pageContext.request.contextPath}/product?action=search" method="post" class="form-inline my-2 my-lg-0 ">
+            <input class="form-control mr-sm-2" type="search" name="productSearch" placeholder="nombre producto" aria-label="Search">
             <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
         </form>
         <div>

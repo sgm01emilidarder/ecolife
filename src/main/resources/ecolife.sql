@@ -121,7 +121,7 @@ CREATE TABLE `products` (
   `pro_description` varchar(100) DEFAULT NULL,
   `pro_type` enum('por_peso','por_unidad') NOT NULL DEFAULT 'por_peso',
   PRIMARY KEY (`pro_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +130,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'mandarinas',2.49,1,'mandarinas.png','fruta_y_verdura','mandarinas','por_peso'),(2,'platanos',2,1,'platanos.png','fruta_y_verdura','platanos','por_peso'),(3,'hamburguesa de pollo',1,0.2,'hamburguesaPollo.png','carne','hamburguesa de pollo','por_unidad'),(4,'peras',1.55,1,'peras.png','fruta_y_verdura','peras frescas','por_peso');
+INSERT INTO `products` VALUES (1,'mandarinas',2.5,1,'mandarinas.png','fruta_y_verdura','mandarinas','por_peso'),(2,'platanos',2,1,'platanos.png','fruta_y_verdura','platanos','por_peso'),(3,'hamburguesa de pollo',1,0.2,'hamburguesaPollo.png','carne','hamburguesa de pollo','por_unidad'),(4,'peras',1.55,1,'peras.png','fruta_y_verdura','peras frescas','por_peso'),(7,'huevos ecologicos 1/2 docena',2,1,'huevos.png','huevos_y_lacteos','huevos de gallinas alimentadas con cereales ecologicos','por_unidad'),(8,'queso bio burgos 2x100Gr',3.4,1,'queso-burgos.png','huevos_y_lacteos','queso fresco ecologico','por_unidad'),(9,'carne picada mixta ternera/cerdo',7.5,1,'carne-picada-mixta.png','carne','carne picada hecha de cerdos y terneras criadas en campos ecologicos','por_peso');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -143,4 +143,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-02 12:49:50
+-- Dump completed on 2020-02-05 17:10:26
