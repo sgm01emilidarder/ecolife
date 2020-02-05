@@ -57,7 +57,7 @@ function printLocalStorage() {
                         <td class="align-middle">${item.precio}${tdPrecio}</td>
                         <td class="align-middle">${item.cantidad} ${tdCantidad}</td>
                         <td class="align-middle text-center">
-                            <a href="#" class="btn">
+                            <a href="#" onclick="removeItem(${item.codigo})" class="btn">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
@@ -78,6 +78,12 @@ function printLocalStorage() {
                         <td colspan="1"><button class="btn btn-success">Realizar pedido</button></td>
                     </tr>
     `
+}
+
+function removeItem(id) {
+    carrito = carrito.filter(e => e.codigo != id);
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    printLocalStorage();
 }
 
 function deleteLocalStorage() {
