@@ -24,6 +24,7 @@
     <title>Ecolife</title>
 </head>
 <body class="container back">
+<input type="hidden" id="userSession" value="${usuari.id}">
 <header class="mb-2">
     <nav class="navbar navbar-light bg-success row">
         <a class="navbar-brand" href="${pageContext.request.contextPath}/product?action=filter&categoryProduct=null">Ecolife <i class="fas fa-leaf"></i></a>
@@ -49,7 +50,7 @@
                     </div>
                 </div>
             </c:if>
-            <a class="btn btn-light" href="carrito.jsp" onclick="printLocalStorage()">Carrito <i class="fas fa-shopping-cart"></i></a>
+            <a class="btn btn-light" href="carrito.jsp" onclick="setUser(${usuari.id}); printLocalStorage()">Carrito <i class="fas fa-shopping-cart"></i></a>
         </div>
     </nav>
     <nav class="nav justify-content-center bg-light row">

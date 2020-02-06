@@ -82,8 +82,8 @@ public class OrderController extends HttpServlet{
         //request.setCharacterEncoding("UTF-8");
 
         // recuperamos los valores del formulario agregarCliente
-        User userId = new User(Integer.parseInt(request.getParameter("userId")));
-        LocalDate date = LocalDate.parse(request.getParameter("date"));
+        User userId = new User(Integer.parseInt(request.getParameter("idCustomer")));
+        LocalDate date = LocalDate.now();
         double total = Double.parseDouble(request.getParameter("total"));
 
         Order order = new Order(userId, date, total);
@@ -92,6 +92,7 @@ public class OrderController extends HttpServlet{
         int registrosModificados = new OrderDao().create(order);
         System.out.println("Registres modificats:" + registrosModificados);
 
+        response.sendRedirect("index.jsp");
         // Redirigimos hacia accion por default
         /*this.showListProduct(request, response);*/
     }
