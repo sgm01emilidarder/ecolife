@@ -75,6 +75,33 @@ public class OrderDao {
         return orders;
     }
 
+    public Order findByCusId(User user) {
+        String SQL_SELECT_BY_ID = "SELECT ord_id "
+                + " FROM orders WHERE ord_cus_id = ? ORDER BY ord_id DESC LIMIT 1";
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Order order = null;
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT_BY_ID);
+
+            stmt.setInt(1, user.getId());
+            rs = stmt.executeQuery();
+            rs.absolute(1);
+
+            order = new Order(rs.getInt("ord_id"));
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            DBConnection.close(rs);
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
+        return order;
+    }
+
     public Order findById(Order order) {
         String SQL_SELECT_BY_ID = "SELECT ord_cus_id, ord_date, ord_total "
                 + " FROM orders WHERE ord_id = ?";

@@ -43,7 +43,7 @@
                             aria-haspopup="true" aria-expanded="false"><c:out value="${usuari.username}"/> <i
                             class="fas fa-user"></i></button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item " href="#">Mis pedidos</a>
+                        <a class="dropdown-item " href="${pageContext.request.contextPath}/order?action=list&idCustomer=${usuari.id}">Mis pedidos</a>
                         <form action="${pageContext.request.contextPath}/client?action=close" method="POST">
                             <button type="submit" class="dropdown-item text-danger">Cerrar Sesion</button>
                         </form>

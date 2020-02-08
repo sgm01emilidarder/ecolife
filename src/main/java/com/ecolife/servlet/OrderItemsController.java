@@ -8,25 +8,18 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+import com.ecolife.dao.OrderDao;
 import com.ecolife.dao.OrderItemsDao;
 import com.ecolife.dto.Order;
 import com.ecolife.dto.OrderItems;
 import com.ecolife.dto.Product;
+import com.ecolife.dto.User;
 import com.sun.org.apache.xpath.internal.operations.Or;
 
 
 @WebServlet("/orderItems")
 public class OrderItemsController extends HttpServlet {
     private static final long serialVersionUID = -7558166539389234332L;
-    List<OrderItems> cart = new ArrayList<>();
-
-/*    private boolean compareCartItems(OrderItems item){
-        for (OrderItems oItem : cart){
-            if (oItem.getProductCode().getCode() == item.getProductCode().getCode()){
-                return false;
-            }
-        } return true;
-    }*/
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,6 +29,9 @@ public class OrderItemsController extends HttpServlet {
             switch (action) {
                 case "edit":
                     this.editOrderItem(request, response);
+                    break;
+                case "list":
+                    this.listOrderItem(request, response);
                     break;
                 default:
                     this.showListOrderItem(request, response);
@@ -72,35 +68,17 @@ public class OrderItemsController extends HttpServlet {
         }
     }
 
-   /* private void addItemToList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void listOrderItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Order idOrder = new Order(Integer.parseInt(request.getParameter("idOrder")));
+        List<OrderItems> items = new OrderItemsDao().listByOrder(idOrder);
 
-        Product idProduct = new Product(Integer.parseInt(request.getParameter("idProduct")));
-        double price = Double.parseDouble(request.getParameter("price"));
-        double quantity = Double.parseDouble(request.getParameter("quantity"));
-
-        OrderItems newItem = new OrderItems(idProduct, price, quantity);
-
-        if (cart.isEmpty()) {
-            cart.add(newItem);
-        } else {
-
-            for (OrderItems cartItem : new ArrayList<>(cart)) {
-                if (cartItem.getProductCode().getCode() == newItem.getProductCode().getCode()) {
-                    cartItem.setQuantity(cartItem.getQuantity() + quantity);
-                }else if (compareCartItems(newItem)) {
-                    cart.add(newItem);
-                }
-            }
-        }
-
-
-        System.out.println("carrito = " + cart);
+        System.out.println("items = " + items);
 
         HttpSession session = request.getSession();
-        session.setAttribute("cart", cart);
+        session.setAttribute("customerOrderItems", items);
 
-        response.sendRedirect("index.jsp");
-    }*/
+        response.sendRedirect("customerOrderItems.jsp");
+    }
 
     private void showListOrderItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<OrderItems> items = new OrderItemsDao().listar();
@@ -124,8 +102,8 @@ public class OrderItemsController extends HttpServlet {
     }
 
     private void insertOrderItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        Order idOrder = new Order(Integer.parseInt(request.getParameter("idOrder")));
+        User idUser = new User(Integer.parseInt(request.getParameter("idCustomer")));
+        Order idOrder = new OrderDao().findByCusId(idUser);
         Product idProduct = new Product(Integer.parseInt(request.getParameter("idProduct")));
         double price = Double.parseDouble(request.getParameter("unit_price"));
         double quantity = Double.parseDouble(request.getParameter("quantity"));
@@ -134,6 +112,8 @@ public class OrderItemsController extends HttpServlet {
 
         int registrosModificados = new OrderItemsDao().create(item);
         System.out.println("Registres modificats:" + registrosModificados);
+
+        response.sendRedirect("index.jsp");
 
         // Redirigimos hacia accion por default
         /*this.showListProduct(request, response);*/

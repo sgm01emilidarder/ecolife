@@ -6,6 +6,7 @@ import java.util.*;
 import com.ecolife.dto.Order;
 import com.ecolife.dto.OrderItems;
 import com.ecolife.dto.Product;
+import com.ecolife.dao.ProductDao;
 
 public class OrderItemsDao {
     public OrderItemsDao() {}
@@ -58,10 +59,11 @@ public class OrderItemsDao {
             while (rs.next()) {
                 Order orderItemId = new Order(rs.getInt("oit_ord_id"));
                 Product productId = new Product(rs.getInt("oit_pro_id"));
+                Product product = new ProductDao().findById(productId);
                 double unitPrice = rs.getDouble("oit_unit_price");
                 double quantity = rs.getDouble("oit_quantity");
 
-                item = new OrderItems(orderItemId, productId, unitPrice, quantity);
+                item = new OrderItems(orderItemId, product, unitPrice, quantity);
                 items.add(item);
             }
         } catch (SQLException ex) {

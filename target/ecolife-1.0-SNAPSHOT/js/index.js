@@ -66,7 +66,8 @@ function printLocalStorage() {
     `
         totalPedido += item.total;
     }
-    content.innerHTML += `
+    if(totalPedido !== 0){
+        content.innerHTML += `
         <tr class="table-success">
                         <td colspan="4"></td>
                         <td colspan="1"><b>TOTAL PEDIDO:</b></td>
@@ -75,9 +76,10 @@ function printLocalStorage() {
                     <tr class="table-light">
                         <td colspan="4"></td>
                         <td colspan="1"><button class="btn btn-danger" onclick="deleteLocalStorage()">Borrar Carrito</button></td>
-                        <td colspan="1"><button class="btn btn-success" onclick="doOrder(${totalPedido})">Realizar pedido</button></td>
+                        <td colspan="1"><button class="btn btn-success" onclick="insertOrder(${totalPedido})">Realizar pedido</button></td>
                     </tr>
     `
+    }
 }
 
 function removeItem(id) {
@@ -90,39 +92,55 @@ function deleteLocalStorage() {
     localStorage.removeItem("carrito");
     carrito = [];
     printLocalStorage();
+    document.getElementById('localStorage').innerHTML = '';
 }
 
-function doOrder(total) {
+function insertOrder(total){
     let user = document.getElementById("userSession").value;
-    $.ajax({
-        type : "POST",
-        url : "/ecolife_war_exploded/order?action=insert&idCustomer=" + user +"&total=" + total,
-        timeout : 100000,
-        success : function() {
-            console.log("SUCCESS");
-        },
-        error : function(e) {
-            console.log("ERROR: ", e);
-        },
-        done : function(e) {
-            console.log("DONE");
-        }
-    });
-    /*$.ajax({
-        type : "POST",
-        url : "/ecolife_war_exploded/order?action=create",
-        data : carrito,
-        dataType : 'json',
-        timeout : 100000,
-        contentType:'application/json',
-        success : function(data) {
-            console.log("SUCCESS: ", data);
-        },
-        error : function(e) {
-            console.log("ERROR: ", e);
-        },
-        done : function(e) {
-            console.log("DONE");
-        }
-    });*/
+        $.ajax({
+            type : "POST",
+            url : "/ecolife_war_exploded/order?action=insert&idCustomer=" + user +"&total=" + total,
+            timeout : 100000,
+            success : function() {
+                console.log("SUCCESS");
+                calledFromAjaxSuccess(true);
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+                alert("Para realizar el pedido es necesario iniciar la sesión");
+                calledFromAjaxSuccess(false);
+            },
+            done : function(e) {
+                console.log("DONE");
+            }
+        });
+}
+
+function insertOrderItems(){
+    let user = document.getElementById("userSession").value;
+    for (let item of carrito) {
+        $.ajax({
+            type : "POST",
+            url : "/ecolife_war_exploded/orderItems?action=insert&idProduct=" + item.codigo +"&unit_price=" + item.precio + "&quantity=" + item.cantidad + "&idCustomer=" + user,
+            timeout : 100000,
+            success : function() {
+                console.log("SUCCESS: ");
+            },
+            error : function(e) {
+                console.log("ERROR: ", e);
+            },
+            done : function(e) {
+                console.log("DONE");
+            }
+        });
+    }
+
+}
+
+function calledFromAjaxSuccess(returnValue){
+    if(returnValue){
+        insertOrderItems();
+        deleteLocalStorage();
+        location.replace("confirmPurchase.jsp");
+    }
 }

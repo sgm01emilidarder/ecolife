@@ -26,6 +26,9 @@ public class OrderController extends HttpServlet{
                 case "edit":
                     this.editOrder(request, response);
                     break;
+                case "list":
+                    this.listOrder(request, response);
+                    break;
                 default:
                     this.showListOrder(request, response);
             }
@@ -56,6 +59,18 @@ public class OrderController extends HttpServlet{
         } else {
             this.showListOrder(request, response);
         }
+    }
+
+    private void listOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User userId = new User(Integer.parseInt(request.getParameter("idCustomer")));
+        List<Order> orders = new OrderDao().listByCustomer(userId);
+
+        System.out.println("pedidos = " + orders);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("customerOrders", orders);
+
+        response.sendRedirect("customerOrders.jsp");
     }
 
     private void showListOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
