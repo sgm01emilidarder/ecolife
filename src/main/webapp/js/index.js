@@ -140,7 +140,28 @@ function insertOrderItems(){
 function calledFromAjaxSuccess(returnValue){
     if(returnValue){
         insertOrderItems();
-        deleteLocalStorage();
         location.replace("confirmPurchase.jsp");
+        deleteLocalStorage();
     }
+}
+
+function checkUserAndPass(){
+    let username = document.getElementById('user').value;
+    let password = document.getElementById('pass').value;
+    $.ajax({
+        type : "POST",
+        url : "/ecolife_war_exploded/client?action=login&userUsername=" + username +"&userPass=" + password,
+        timeout : 100000,
+        success : function() {
+            console.log("SUCCESS: ");
+            document.getElementById('loginForm').submit();
+        },
+        error : function(e) {
+            console.log("ERROR: ", e);
+            document.getElementById('alertMessage').className="alert alert-danger";
+        },
+        done : function(e) {
+            console.log("DONE");
+        }
+    });
 }

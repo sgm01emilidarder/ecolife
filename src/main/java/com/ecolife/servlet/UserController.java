@@ -113,8 +113,7 @@ public class UserController extends HttpServlet{
            session.setAttribute("user", user);
            response.sendRedirect("index.jsp");
        } else {
-           HttpSession session = request.getSession();
-           session.setAttribute("user", null);
+           response.sendError(HttpServletResponse.SC_BAD_REQUEST, "message goes here");
        }
 
     }

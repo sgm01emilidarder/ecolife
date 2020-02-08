@@ -34,7 +34,7 @@
                                 <c:if test="${item.productCode.type=='por_peso'}">kg</c:if>
                                 <c:if test="${item.productCode.type=='por_unidad'}">unidad/es</c:if>
                             </td>
-                            <td>${item.unitPrice * item.quantity}</td>
+                            <td>${item.unitPrice * item.quantity}€</td>
                         </tr>
                     </c:forEach>
                     </tbody>
