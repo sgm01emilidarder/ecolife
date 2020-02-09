@@ -19,7 +19,7 @@ public class OrderController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Recuperam l'acció a realitzar i es crida a la funció corresponent
+
         String action = request.getParameter("action");
         if (action != null) {
             switch (action) {
@@ -40,7 +40,6 @@ public class OrderController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Recuperam l'acció a realitzar i es crida a la funció corresponent
         String action = request.getParameter("action");
         if (action != null) {
             switch (action) {
@@ -94,22 +93,17 @@ public class OrderController extends HttpServlet{
     }
 
     private void insertOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //request.setCharacterEncoding("UTF-8");
 
-        // recuperamos los valores del formulario agregarCliente
         User userId = new User(Integer.parseInt(request.getParameter("idCustomer")));
         LocalDate date = LocalDate.now();
         double total = Double.parseDouble(request.getParameter("total"));
 
         Order order = new Order(userId, date, total);
 
-        // Insertamos el nuevo objeto en la base de datos
         int registrosModificados = new OrderDao().create(order);
         System.out.println("Registres modificats:" + registrosModificados);
 
         response.sendRedirect("index.jsp");
-        // Redirigimos hacia accion por default
-        /*this.showListProduct(request, response);*/
     }
 
     private void updateOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -124,26 +118,20 @@ public class OrderController extends HttpServlet{
 
         Order order = new Order(idOrder, userId, date, total);
 
-        // Modificar el objeto en la base de datos
         int registrosModificados = new OrderDao().update(order);
         System.out.println("Registres modificats:" + registrosModificados);
 
-        // Redirigimos hacia accion por default
         /*this.showListProduct(request, response);*/
     }
 
     private void deleteOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // recuperamos los valores del formulario editarCliente
         int idOrder = Integer.parseInt(request.getParameter("idOrder"));
 
-        // Creamos el objeto de cliente (modelo)
         Order order = new Order(idOrder);
 
-        // Eliminamos el objeto en la base de datos
         int registrosModificados = new OrderDao().delete(order);
         System.out.println("Registres modificats:" + registrosModificados);
 
-        // Redirigimos hacia accion por default
         /*this.showListProduct(request, response);*/
     }
 

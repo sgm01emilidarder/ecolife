@@ -17,7 +17,7 @@ public class ProductController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Recuperam l'acció a realitzar i es crida a la funció corresponent
+
         String action = request.getParameter("action");
         if (action != null) {
             switch (action) {
@@ -38,7 +38,6 @@ public class ProductController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Recuperam l'acció a realitzar i es crida a la funció corresponent
         String action = request.getParameter("action");
         if (action != null) {
             switch (action) {
@@ -108,7 +107,7 @@ public class ProductController extends HttpServlet{
     }
 
     private void editProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // recuperamos el idCliente
+
         int idProduct = Integer.parseInt(request.getParameter("idProduct"));
         Product product = new ProductDao().findById(new Product(idProduct));
         request.setAttribute("product", product);
@@ -118,9 +117,7 @@ public class ProductController extends HttpServlet{
     }
 
     private void insertProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //request.setCharacterEncoding("UTF-8");
 
-        // recuperamos los valores del formulario agregarCliente
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
         double weight = Double.parseDouble(request.getParameter("weight"));
@@ -129,22 +126,18 @@ public class ProductController extends HttpServlet{
         Category category = Category.valueOf(request.getParameter("category"));
         Type type = Type.valueOf(request.getParameter("type"));
 
-        // Creamos el objeto de cliente (modelo)
         Product product = new Product(name, price, weight, cover, description, category, type);
 
-        // Insertamos el nuevo objeto en la base de datos
         int registrosModificados = new ProductDao().create(product);
         System.out.println("Registres modificats:" + registrosModificados);
 
-        // Redirigimos hacia accion por default
         this.showListProduct(request, response);
     }
 
     private void updateProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //request.setCharacterEncoding("UTF-8");
+
         System.out.println("Modificar producto");
 
-        // Recuperam els valors del formulari editClient
         int idProduct = Integer.parseInt(request.getParameter("idProduct"));
         String name = request.getParameter("name");
         System.out.println("Nombre: " + name);
@@ -156,29 +149,23 @@ public class ProductController extends HttpServlet{
         Category category = Category.valueOf(request.getParameter("category"));
         Type type = Type.valueOf(request.getParameter("type"));
 
-        // Creamos el objeto de cliente (modelo)
         Product product = new Product(idProduct, name, price, weight, cover, description, category, type);
 
-        // Modificar el objeto en la base de datos
         int registrosModificados = new ProductDao().update(product);
         System.out.println("Registres modificats:" + registrosModificados);
 
-        // Redirigimos hacia accion por default
         this.showListProduct(request, response);
     }
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // recuperamos los valores del formulario editarCliente
+
         int idProduct = Integer.parseInt(request.getParameter("idProduct"));
 
-        // Creamos el objeto de cliente (modelo)
         Product product = new Product(idProduct);
 
-        // Eliminamos el objeto en la base de datos
         int registrosModificados = new ProductDao().delete(product);
         System.out.println("Registres modificats:" + registrosModificados);
 
-        // Redirigimos hacia accion por default
         this.showListProduct(request, response);
     }
 

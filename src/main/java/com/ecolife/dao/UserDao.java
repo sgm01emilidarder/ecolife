@@ -44,10 +44,6 @@ public class UserDao {
         return users;
     }
 
-    /*
-     * Recupera un usuari a la base de dades segons el seu ID
-     *
-     */
     public User findById(User user) {
         String SQL_SELECT_BY_ID = "SELECT cus_id, cus_dni, cus_name, cus_surname, cus_username, cus_password, cus_phone, cus_email "
                 + " FROM customers WHERE cus_id = ?";
@@ -131,10 +127,7 @@ public class UserDao {
         }
         return user;
     }
-    /*
-     * Crea un usuari a la base de dades
-     *
-     */
+
     public int create(User user) {
         String SQL_INSERT = "INSERT INTO customers(cus_dni, cus_name, cus_surname, cus_username, cus_password, cus_phone, cus_email) "
                 + " VALUES(?, ?, ?, ?, SHA2(?,256), ?, ?)";
@@ -163,10 +156,6 @@ public class UserDao {
         return rows;
     }
 
-    /*
-     * Modifica un usuari de la base de dades
-     *
-     */
     public int update(User user) {
         String SQL_UPDATE = "UPDATE customers "
                 + " SET cus_dni=?, cus_name=?, cus_surname=?, cus_username=?, cus_password=SHA2(?,256), cus_phone=?, cus_email=? WHERE cus_id=?";
@@ -196,10 +185,6 @@ public class UserDao {
         return rows;
     }
 
-    /*
-     * Esborra un usuari de la base de dades
-     *
-     */
     public int delete(User user) {
         String SQL_DELETE = "DELETE FROM customers WHERE cus_id = ?";
         Connection conn = null;

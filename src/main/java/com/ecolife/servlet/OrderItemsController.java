@@ -23,7 +23,7 @@ public class OrderItemsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Recuperam l'acció a realitzar i es crida a la funció corresponent
+
         String action = request.getParameter("action");
         if (action != null) {
             switch (action) {
@@ -44,7 +44,6 @@ public class OrderItemsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Recuperam l'acció a realitzar i es crida a la funció corresponent
         String action = request.getParameter("action");
         if (action != null) {
             switch (action) {
@@ -115,7 +114,6 @@ public class OrderItemsController extends HttpServlet {
 
         response.sendRedirect("index.jsp");
 
-        // Redirigimos hacia accion por default
         /*this.showListProduct(request, response);*/
     }
 
@@ -132,27 +130,22 @@ public class OrderItemsController extends HttpServlet {
 
         OrderItems item = new OrderItems(idOrder, idProduct, price, quantity);
 
-        // Modificar el objeto en la base de datos
         int registrosModificados = new OrderItemsDao().update(item);
         System.out.println("Registres modificats:" + registrosModificados);
 
-        // Redirigimos hacia accion por default
         /*this.showListProduct(request, response);*/
     }
 
     private void deleteOrderItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // recuperamos los valores del formulario editarCliente
+
         Order idOrder = new Order(Integer.parseInt(request.getParameter("idOrder")));
         Product idProduct = new Product(Integer.parseInt(request.getParameter("idProduct")));
 
-        // Creamos el objeto de cliente (modelo)
         OrderItems item = new OrderItems(idOrder, idProduct);
 
-        // Eliminamos el objeto en la base de datos
         int registrosModificados = new OrderItemsDao().delete(item);
         System.out.println("Registres modificats:" + registrosModificados);
 
-        // Redirigimos hacia accion por default
         /*this.showListProduct(request, response);*/
     }
 
