@@ -2,10 +2,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page import="com.ecolife.dto.User" %>
+<%@ page import="com.ecolife.dao.OrderDao" %>
 
 <%
     User usuari = (User) session.getAttribute("user");
     request.setAttribute("usuari", usuari);
+
+    if (usuari != null){
+        int numPedidos = new OrderDao().countOrdersByCustomerIdAndMonth(usuari);
+        request.setAttribute("numPedidos", numPedidos);
+    }
 
 %>
 
@@ -25,6 +31,7 @@
 </head>
 <body class="container back">
 <input type="hidden" id="userSession" value="${usuari.id}">
+<input type="hidden" id="userOrders" value="${numPedidos}">
 <header class="mb-2">
     <nav class="navbar navbar-light bg-success row">
         <a class="navbar-brand" href="${pageContext.request.contextPath}/product?action=filter&categoryProduct=null">Ecolife <i class="fas fa-leaf"></i></a>

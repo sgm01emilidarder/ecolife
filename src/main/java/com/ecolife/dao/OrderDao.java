@@ -102,6 +102,35 @@ public class OrderDao {
         return order;
     }
 
+    public int countOrdersByCustomerIdAndMonth(User user) {
+        String SQL_SELECT_BY_ID = "SELECT count(*) numOrders "
+                + " FROM orders WHERE ord_cus_id = ? AND monthname(ord_date)= ?";
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String month = LocalDate.now().getMonth().name();
+        int numOrders = 0;
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT_BY_ID);
+
+            stmt.setInt(1, user.getId());
+            stmt.setString(2, month);
+            rs = stmt.executeQuery();
+            rs.absolute(1);
+
+            numOrders = rs.getInt("numOrders");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.out);
+        } finally {
+            DBConnection.close(rs);
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
+        return numOrders;
+    }
+
     public Order findById(Order order) {
         String SQL_SELECT_BY_ID = "SELECT ord_cus_id, ord_date, ord_total "
                 + " FROM orders WHERE ord_id = ?";
