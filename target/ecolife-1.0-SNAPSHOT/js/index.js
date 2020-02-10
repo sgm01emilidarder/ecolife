@@ -102,10 +102,11 @@ function deleteLocalStorage() {
 }
 
 function insertOrder(total){
+    let pageContext = document.getElementById("pageContext").value;
     let user = document.getElementById("userSession").value;
         $.ajax({
             type : "POST",
-            url : "/ecolife_war_exploded/order?action=insert&idCustomer=" + user +"&total=" + total,
+            url : pageContext + "/order?action=insert&idCustomer=" + user +"&total=" + total,
             timeout : 100000,
             success : function() {
                 console.log("SUCCESS");
@@ -113,7 +114,7 @@ function insertOrder(total){
             },
             error : function(e) {
                 console.log("ERROR: ", e);
-                alert("Para realizar el pedido es necesario iniciar sesión");
+                message("Para realizar el pedido es necesario iniciar sesión");
                 calledFromAjaxSuccess(false);
             },
             done : function(e) {
@@ -123,11 +124,12 @@ function insertOrder(total){
 }
 
 function insertOrderItems(){
+    let pageContext = document.getElementById("pageContext").value;
     let user = document.getElementById("userSession").value;
     for (let item of carrito) {
         $.ajax({
             type : "POST",
-            url : "/ecolife_war_exploded/orderItems?action=insert&idProduct=" + item.codigo +"&unit_price=" + item.precio + "&quantity=" + item.cantidad + "&idCustomer=" + user,
+            url : pageContext + "/orderItems?action=insert&idProduct=" + item.codigo +"&unit_price=" + item.precio + "&quantity=" + item.cantidad + "&idCustomer=" + user,
             timeout : 100000,
             success : function() {
                 console.log("SUCCESS: ");
@@ -152,11 +154,12 @@ function calledFromAjaxSuccess(returnValue){
 }
 
 function checkUserAndPass(){
+    let pageContext = document.getElementById("pageContext").value;
     let username = document.getElementById('user').value;
     let password = document.getElementById('pass').value;
     $.ajax({
         type : "POST",
-        url : "/ecolife_war_exploded/client?action=login&userUsername=" + username +"&userPass=" + password,
+        url : pageContext + "/client?action=login&userUsername=" + username +"&userPass=" + password,
         timeout : 100000,
         success : function() {
             console.log("SUCCESS: ");
@@ -171,3 +174,8 @@ function checkUserAndPass(){
         }
     });
 }
+
+function message(msg) {
+    $("#modalMsg").html(msg);
+    $("#myModal").modal("show");
+};

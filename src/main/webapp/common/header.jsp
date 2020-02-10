@@ -32,6 +32,7 @@
 <body class="container back">
 <input type="hidden" id="userSession" value="${usuari.id}">
 <input type="hidden" id="userOrders" value="${numPedidos}">
+<input type="hidden" id="pageContext" value="${pageContext.request.contextPath}">
 <header class="mb-2">
     <nav class="navbar navbar-light bg-success row">
         <a class="navbar-brand" href="${pageContext.request.contextPath}/product?action=filter&categoryProduct=null">Ecolife <i class="fas fa-leaf"></i></a>
