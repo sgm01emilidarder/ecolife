@@ -113,7 +113,7 @@ function insertOrder(total){
             },
             error : function(e) {
                 console.log("ERROR: ", e);
-                alert("Para realizar el pedido es necesario iniciar sesión");
+                message("Para realizar el pedido es necesario iniciar sesión");
                 calledFromAjaxSuccess(false);
             },
             done : function(e) {
@@ -171,3 +171,8 @@ function checkUserAndPass(){
         }
     });
 }
+
+function message(msg) {
+    $("#modalMsg").html(msg);
+    $("#myModal").modal("show");
+};

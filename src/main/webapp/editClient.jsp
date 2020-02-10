@@ -50,7 +50,7 @@
             </div>
             <div class="d-flex flex-row-reverse">
                 <button id="btn-delete" class="btn btn-danger ml-3">Eliminar cliente</button>
-                <button type="submit" class="btn btn-success">Editar cliente</button>
+                <button type="submit" class="btn btn-success">Modificar cliente</button>
             </div>
         </form>
 

@@ -46,7 +46,7 @@
             </div>
             <div class="d-flex flex-row-reverse">
                 <button id="btn-delete" class="btn btn-danger ml-3">Eliminar producto</button>
-                <button type="submit" class="btn btn-success float-right">Guardar producto</button>
+                <button type="submit" class="btn btn-success float-right">Modificar producto</button>
             </div>
         </form>
     </div>
