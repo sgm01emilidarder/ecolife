@@ -2,14 +2,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ page import="com.ecolife.dto.User" %>
-<%@ page import="com.ecolife.dao.OrderDao" %>
 
 <%
     User usuari = (User) session.getAttribute("user");
     request.setAttribute("usuari", usuari);
 
     if (usuari != null){
-        int numPedidos = new OrderDao().countOrdersByCustomerIdAndMonth(usuari);
+        int numPedidos = (int) session.getAttribute("numOrders");
         request.setAttribute("numPedidos", numPedidos);
     }
 

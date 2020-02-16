@@ -33,7 +33,7 @@ ProductDao productMethods = new ProductDao();
     </div>
     <div class="row d-flex justify-content-center">
     <c:forEach var="product" items="${products}" varStatus="status" >
-        <div class="card col-3 mx-3 my-1" style="width: 18rem;">
+        <div class="card col-lg-3 mx-3 my-1" style="width: 18rem;">
             <img src="img/${product.cover}" class="card-img-top mt-2 imagen" alt="...">
             <div class="card-body">
                 <h5 class="card-title text-center">${product.name}

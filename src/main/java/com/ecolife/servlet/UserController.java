@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+import com.ecolife.dao.OrderDao;
 import com.ecolife.dto.User;
 import com.ecolife.dao.UserDao;
 
@@ -108,6 +109,10 @@ public class UserController extends HttpServlet{
        } else if(user.getDni() != null) {
            HttpSession session = request.getSession();
            session.setAttribute("user", user);
+
+           int numOrders = new OrderDao().countOrdersByCustomerIdAndMonth(user);
+           session.setAttribute("numOrders", numOrders);
+
            response.sendRedirect("index.jsp");
        } else {
            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "message goes here");
