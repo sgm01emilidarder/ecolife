@@ -115,7 +115,7 @@ public class UserController extends HttpServlet{
 
            response.sendRedirect("index.jsp");
        } else {
-           response.sendError(HttpServletResponse.SC_BAD_REQUEST, "message goes here");
+           response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario o contraseña incorrectos");
        }
 
     }
